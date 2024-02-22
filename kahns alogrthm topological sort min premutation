@@ -1,0 +1,27 @@
+vector<int>v[N];
+void interstaller(){
+    int n=0,m=0;
+    cin>>n>>m;
+    int freq[N]={0};
+    for(int i=0;i<m;i++){
+        int a=0,b=0;
+        cin>>a>>b;
+        v[a].push_back(b);
+        freq[b]++;
+    }
+    priority_queue<int,vector<int>,greater<>>q;
+    for(int i=1;i<=n;i++){
+        if(freq[i]==0)q.push(i);
+    }
+    vector<int>ans;
+    while(!q.empty()){
+        int node=q.top();
+        ans.push_back(node);
+        q.pop();
+        for(auto it:v[node]){
+            freq[it]--;
+            if(freq[it]==0)q.push(it);
+        }
+    }
+    for(auto it:ans)cout<<it<<" ";
+}
