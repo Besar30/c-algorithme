@@ -1,0 +1,45 @@
+void interstaller(){
+    int n=0;
+    cin>>n;
+    vector<vector<int>>v(n);
+    for(int i=1;i<n;i++){
+        int a=0,b=0;
+        cin>>a>>b;
+        a--,b--;
+        v[a].push_back(b);
+        v[b].push_back(a);
+    }
+    vector<int>vis(n);
+    vector<int>parent(n),hieght(n),depth(n),siz(n);
+    parent[0]=-1;
+    siz.assign(n,0);
+    depth.assign(n,0);
+    function<void(int)>dfs=[&](int node){
+        vis[node]=1;
+        siz[node]=1;
+        for(auto it:v[node]){
+            if(vis[it])continue;
+            parent[it]=node;
+            depth[it]=depth[node]+1;
+            dfs(it);
+            hieght[node]=max(hieght[node],hieght[it]+1);
+            siz[node]+=siz[it];
+        }
+    };
+    dfs(0);
+    for(int i=0;i<n;i++){
+        cout<<"size of node  "<<i+1<<" "<<siz[i]<<endl;
+    }
+    cout<<"**********************\n";
+    for(int i=0;i<n;i++){
+        cout<<"hieght of node  "<<i+1<<" "<<hieght[i]<<endl;
+    }
+    cout<<"**********************\n";
+    for(int i=0;i<n;i++){
+        cout<<"parent of node  "<<i+1<<" "<<parent[i]<<endl;
+    }
+    cout<<"*********************\n";
+    for(int i=0;i<n;i++){
+        cout<<"depth of node"<<i+1<<" "<<depth[i]<<endl;
+    }
+}
