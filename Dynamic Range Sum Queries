@@ -1,0 +1,50 @@
+int n=0,q=0;
+int arr[N],sum_of_blocks[N];
+vector<vector<int>>blocks(SQ);
+// create table (num in blocks)
+void process(){
+    for(int i=0;i<n;i++){
+        blocks[i/SQ].push_back(arr[i]);
+        sum_of_blocks[i/SQ]+=arr[i];
+    }
+}
+int query(int l,int r){
+    int ans=0;
+    while(l<=r){
+        if(l%SQ==0&&l+SQ<=r){
+            ans+=sum_of_blocks[l/SQ];
+            l+=SQ;
+        }
+        else{
+            ans+=arr[l];
+            l++;
+        }
+    }
+    return ans;
+}
+void update(int idx,int val){
+    int num_of_blocks=idx/SQ,idx_in_block=idx%SQ;
+    sum_of_blocks[num_of_blocks]-=arr[idx];
+    sum_of_blocks[num_of_blocks]+=val;
+    blocks[num_of_blocks][idx_in_block]=val;
+    arr[idx]=val;
+}
+void interstaller(){
+    cin>>n>>q;
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    process();
+    while(q--){
+        int op;cin>>op;
+        if(op==1){
+            int idx,val;cin>>idx>>val;
+            update(--idx,val);
+        }
+        else{
+            int l=0,r=0;
+            cin>>l>>r;
+            cout<<query(--l,--r)<<endl;
+        }
+    }
+}
