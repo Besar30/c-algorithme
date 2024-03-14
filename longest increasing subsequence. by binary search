@@ -1,0 +1,19 @@
+void interstaller(){
+    int n=0;
+    cin>>n;
+    vector<int>v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i];
+    }
+    vector<int>temp;
+    temp.push_back(v[0]);
+    for(int i=1;i<n;i++){
+        if(v[i]<=temp.back()){
+            int idx= lower_bound(temp.begin(),temp.end(),v[i])-temp.begin();
+            temp[idx]=v[i];
+        }
+        else
+            temp.push_back(v[i]);
+    }
+    cout<<temp.size();
+}
