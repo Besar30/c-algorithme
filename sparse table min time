@@ -1,0 +1,38 @@
+int n=0,m=0,t[N][22],s[N];
+int loog[N];
+int merge(int a,int b){
+    return min(a,b);
+}
+void build(){ //o(n)+nlog(n)
+    for(int i=0;i<n;i++){
+        t[i][0]=s[i];
+    }
+    //start pw =1 ---> pw=0 implement up
+    for(int pw=1;(1<<pw)<=n;pw++){
+        for(int i=0;i+(1<<pw)<=n;i++){
+            t[i][pw]=merge(t[i][pw-1],t[i+(1<<(pw-1))][pw-1]);
+        }
+    }
+}
+int query(int l,int r){
+    int sz=r-l+1;
+    int pw=loog[sz];
+    return merge(t[l][pw],t[r-(1<<pw)+1][pw]);
+}
+void precount(){
+    loog[1]=0;
+    for(int i=2;i<=N;i++){
+        loog[i]=loog[i/2]+1;
+    }
+}
+void interstaller(){
+    cin>>n>>m;
+    for(int i=0;i<n;i++)cin>>s[i];
+    build();
+    precount();
+    while(m--){
+        int l=0,r=0;
+        cin>>l>>r;
+        cout<<query(--l,--r)<<endl;
+    }
+}s
